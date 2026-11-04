@@ -1,65 +1,100 @@
 <?php
+
 $produtos = [
-    ["nome" => "Teclado mecânico", "preco" => 249.90, "estoque" => 12],
-    ["nome" => "Mouse sem fio", "preco" => 79.50, "estoque" => 30],
-    ["nome" => "Monitor", "preco" => 899.00, "estoque" => 0],
-    ["nome" => "Headset", "preco" => 159.90, "estoque" => 8],
+    [
+        "nome" => "Teclado mecânico",
+        "preco" => 150.00,
+        "estoque" => 10
+    ],
+    [
+        "nome" => "Mouse sem fio",
+        "preco" => 80.00,
+        "estoque" => 15
+    ],
+    [
+        "nome" => "Monitor",
+        "preco" => 750.00,
+        "estoque" => 0
+    ],
+    [
+        "nome" => "Headset",
+        "preco" => 120.00,
+        "estoque" => 8
+    ]
 ];
 
-function formatarPreco(float $valor): string
-{
+function formatarPreco($valor) {
     return "R$ " . number_format($valor, 2, ",", ".");
 }
 
-$total = 0;
-foreach ($produtos as $item) {
-    $total += $item["preco"] * $item["estoque"];
-}
+$totalEstoque = 0;
+$valorTotal = 0;
 
-$quantidade = count($produtos);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de produtos</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        table { border-collapse: collapse; width: 100%; max-width: 800px; }
-        th, td { border: 1px solid #999; padding: 10px; text-align: left; }
-        th { background: #e8eef7; }
-        .esgotado { color: #b00020; font-weight: bold; }
-        .disponivel { color: #176b35; font-weight: bold; }
-    </style>
+    <title>Lista de Produtos</title>
 </head>
 <body>
-    <h1>Lista de produtos</h1>
 
-    <table>
-        <thead>
+    <h1>Lista de Produtos</h1>
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Status</th>
+        </tr>
+
+        <?php foreach ($produtos as $produto): ?>
+
             <tr>
-                <th>Produto</th>
-                <th>Preço</th>
-                <th>Estoque</th>
-                <th>Situação</th>
+                <td>
+                    <?= htmlspecialchars($produto["nome"]) ?>
+                </td>
+
+                <td>
+                    <?= formatarPreco($produto["preco"]) ?>
+                </td>
+
+                <td>
+                    <?= $produto["estoque"] ?>
+                </td>
+
+                <td>
+                    <?php
+                    if ($produto["estoque"] > 0) {
+                        echo "Disponível";
+                    } else {
+                        echo "Indisponível";
+                    }
+                    ?>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($produtos as $item): ?>
-                <tr>
-                    <td><?= htmlspecialchars($item["nome"]) ?></td>
-                    <td><?= formatarPreco($item["preco"]) ?></td>
-                    <td><?= (int) $item["estoque"] ?></td>
-                    <td class="<?= $item["estoque"] > 0 ? "disponivel" : "esgotado" ?>">
-                        <?= $item["estoque"] > 0 ? "Disponível" : "Esgotado" ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+
+            <?php
+            $totalEstoque += $produto["estoque"];
+
+            $valorTotal +=
+                $produto["preco"] * $produto["estoque"];
+            ?>
+
+        <?php endforeach; ?>
+
     </table>
 
-    <p><?= $quantidade ?> produtos cadastrados.</p>
-    <p>Valor total em estoque: <strong><?= formatarPreco($total) ?></strong></p>
+    <h2>Resumo do Estoque</h2>
+
+    <p>Total de unidades: <?= $totalEstoque ?></p>
+
+    <p>Valor total do estoque:
+        <?= formatarPreco($valorTotal) ?>
+    </p>
+
 </body>
 </html>
