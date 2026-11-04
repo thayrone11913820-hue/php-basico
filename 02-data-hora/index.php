@@ -3,30 +3,34 @@ date_default_timezone_set("America/Sao_Paulo");
 
 $data = date("d/m/Y");
 $hora = date("H:i:s");
-$mensagem = "Hoje é " . $data . " e agora são " . $hora . ".";
+$dia = date("l");
 
 $horaAtual = (int) date("H");
 
 if ($horaAtual < 12) {
-    $saudacao = "Bom dia";
+    $mensagem = "Bom dia!";
 } elseif ($horaAtual < 18) {
-    $saudacao = "Boa tarde";
+    $mensagem = "Boa tarde!";
 } else {
-    $saudacao = "Boa noite";
+    $mensagem = "Boa noite!";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data e hora</title>
+    <title>Data e Hora</title>
 </head>
 <body>
-    <h1>Data e hora do servidor</h1>
-    <h2><?= $saudacao ?>!</h2>
-    <p>Hoje é <strong><?= $data ?></strong>.</p>
-    <p>Agora são <strong><?= $hora ?></strong>.</p>
-    <p><?= $mensagem ?></p>
+
+    <h1>Data e Hora Atual</h1>
+
+    <p>Data: <?= $data ?></p>
+    <p>Hora: <?= $hora ?></p>
+    <p>Dia da semana: <?= $dia ?></p>
+
+    <h2><?= $mensagem ?></h2>
+
 </body>
 </html>
